@@ -11,6 +11,9 @@ module RSpec
       # Name of task. (default is :spec)
       attr_accessor :name
 
+      # Path to the spec executable. (default is rspec)
+      attr_accessor :spec_executable
+
       # If true, requests that the specs be run with the warning flag set.
       # E.g. warning=true implies "ruby -w" used to run the specs. Defaults to false.
       attr_accessor :warning
@@ -46,6 +49,7 @@ module RSpec
         @pattern, @rcov_path, @rcov_opts, @ruby_opts = nil, nil, nil, nil
         @warning, @rcov = false, false
         @fail_on_error = true
+        @spec_executable = 'rspec'
 
         yield self if block_given?
         @rcov_path ||= 'rcov'
@@ -84,9 +88,12 @@ module RSpec
         @spec_command ||= begin
                             cmd_parts = %w[-Ilib -Ispec]
                             cmd_parts << "-w" if warning
+                            cmd_parts << "-S" unless rcov
+                            cmd_parts << spec_executable
                             cmd_parts.unshift runner_options
                             cmd_parts.unshift runner
                             cmd_parts.unshift bundler
+                            cmd_parts << "--" if rcov
                             cmd_parts += files_to_run.map { |fn| %["#{fn}"] }
                             cmd_parts.join(" ")
                           end

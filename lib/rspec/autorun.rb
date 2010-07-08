@@ -1,2 +1,2 @@
 require 'rspec/core'
-RSpec::Core::Runner.autorun
+exit RSpec::Core::Runner.run(ARGV, $stderr, $stdout)

@@ -1,10 +1,8 @@
 require 'bundler'
 Bundler.setup
 
-# TODO (DC 2010-07-04) This next line is necessary when running 'rake spec'.
-# Why doesn't the rspec-core ref in Gemfile handle this.
-require 'rspec/core'
 require 'autotest/rspec2'
+require 'rspec/autorun'
 
 Dir['./spec/support/**/*.rb'].map {|f| require f}
 

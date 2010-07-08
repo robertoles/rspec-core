@@ -46,12 +46,15 @@ namespace :gem do
   end
 end
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t|
+  # t.spec_executable = 'bin/rspec'
+end
 
 desc "Run all examples using rcov"
 RSpec::Core::RakeTask.new :rcov => :cleanup_rcov_files do |t|
+  t.spec_executable = 'bin/rspec'
   t.rcov = true
-  t.rcov_opts =  %[-Ilib -Ispec --exclude "mocks,expectations,gems/*,spec/resources,spec/lib,spec/spec_helper.rb,db/*,/Library/Ruby/*,config/*"]
+  t.rcov_opts =  %[-Ilib -Ispec --exclude "spec/rspec/core/resources,spec/support,spec/spec_helper.rb,db/*,/Library/Ruby/*,config/*"]
   t.rcov_opts << %[--no-html --aggregate coverage.data]
 end
 
